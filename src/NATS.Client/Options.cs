@@ -34,6 +34,7 @@ namespace NATS.Client
         bool pedantic = false;
         bool useOldRequestStyle = false;
         bool secure = false;
+        bool SslTransport = false;
         bool allowReconnect = true;
         bool noEcho = false;
         bool ignoreDiscoveredServers = false;
@@ -295,6 +296,7 @@ namespace NATS.Client
             reconnectJitterTLS = o.reconnectJitterTLS;
             reconnectWait = o.reconnectWait;
             secure = o.secure;
+            SslTransport = o.SslTransport;
             user = o.user;
             password = o.password;
             token = o.token;
@@ -453,6 +455,16 @@ namespace NATS.Client
         {
             get { return secure; }
             set { secure = value; }
+        }
+
+        /// <summary>
+        /// Get or sets a value indicating whether or not a secure connection 
+        /// should be made to TLS Termination proxy sitting infront of NATS servers
+        /// </summary>
+        public bool SSLTransport
+        {
+            get { return SslTransport; }
+            set { SslTransport = value; }
         }
 
         /// <summary>

@@ -391,7 +391,7 @@ namespace NATS.Client
                         client = null;
                         throw new NATSConnectionException("timeout");
                     }
-
+                    
                     client.NoDelay = false;
 
                     client.ReceiveBufferSize = defaultBufSize*2;
@@ -823,6 +823,10 @@ namespace NATS.Client
             try
             {
                 conn.open(s, opts.Timeout);
+                if (this.opts.SSLTransport)
+                {
+                    makeTLSConn();
+                }
 
                 if (pending != null && bw != null)
                 {
@@ -835,6 +839,8 @@ namespace NATS.Client
                     }
                     catch (Exception) { }
                 }
+
+
 
                 bw = conn.getWriteBufferedStream(defaultBufSize);
                 br = conn.getReadBufferedStream();
