@@ -14,9 +14,9 @@ namespace NATS.Client
         bool DataAvailable { get; }
         int SendTimeout { set; }
         int ReceiveTimeout { get; set; }
-        void open(Srv s, int timeoutMillis);
+        void open(Srv s, Connection connection, int timeoutMillis);
         void close(TcpClient c);
-        void makeTLS(Options options);
+        void makeTLS();
         bool isSetup();
         void teardown();
         Stream getReadBufferedStream();

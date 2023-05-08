@@ -37,6 +37,8 @@ namespace NATS.Client
         ///          ->NetworkStream/SslStream (srvStream)
         ///              ->TCPClient (srvClient);
         /// 
+        Connection natsConnection;
+
         object mu = new object();
         TcpClient client = null;
         NetworkStream stream = null;
@@ -44,8 +46,10 @@ namespace NATS.Client
 
         string hostName = null;
 
-        public void open(Srv s, int timeoutMillis)
+        public virtual void open(Srv s, Connection connection, int timeoutMillis)
         {
+            natsConnection = connection;
+
             lock (mu)
             {
                 // If a connection was lost during a reconnect we 
@@ -99,7 +103,7 @@ namespace NATS.Client
             return false;
         }
 
-        public void close(TcpClient c)
+        public virtual void close(TcpClient c)
         {
 #if NET46
                     c?.Close();
@@ -109,8 +113,10 @@ namespace NATS.Client
             c = null;
         }
 
-        public void makeTLS(Options options)
+        public void makeTLS()
         {
+            Options options = natsConnection.Opts;
+
             RemoteCertificateValidationCallback cb = null;
 
             if (stream == null)

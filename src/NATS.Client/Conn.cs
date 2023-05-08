@@ -575,7 +575,7 @@ namespace NATS.Client
             ex = null;
             try
             {
-                conn.open(s, opts.Timeout);
+                conn.open(s, this, opts.Timeout);
 
                 if (pending != null && bw != null)
                 {
@@ -604,7 +604,7 @@ namespace NATS.Client
         // makeSecureConn will wrap an existing Conn using TLS
         private void makeTLSConn()
         {
-            conn.makeTLS(this.opts);
+            conn.makeTLS();
 
             bw = conn.getWriteBufferedStream(defaultBufSize);
             br = conn.getReadBufferedStream();
